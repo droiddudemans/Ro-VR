@@ -22,11 +22,17 @@ app.post("/update/:playerId", (req, res) => {
     res.send({ status: "ok" });
 });
 
-// Roblox polls tracker data here
-app.get("/get/:playerId", (req, res) => {
-    const playerId = req.params.playerId;
-    res.json(trackerData[playerId]?.data || {});
+// Roblox gets ALL active tracker data
+app.get("/getAll", (req, res) => {
+    const allData = {};
+
+    for (const playerId in trackerData) {
+        allData[playerId] = trackerData[playerId].data;
+    }
+
+    res.json(allData);
 });
+
 
 // Cleanup old players
 setInterval(() => {
